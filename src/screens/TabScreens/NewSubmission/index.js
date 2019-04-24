@@ -65,6 +65,7 @@ export default class NewSubmissionScreen extends Component {
       navigation.navigate('ViewSubmission', {
         submission: this.state,
         title: 'View your submission before submitting it',
+        showActions: true,
         clearInput: () => this.setState({
           name: '',
           phoneNumber: '',
@@ -91,7 +92,7 @@ export default class NewSubmissionScreen extends Component {
         <Notice>
           <Text style={styles.noticeContent}>
             {
-              'Please enter your contact informatino and chief complaint to make a new'
+              'Please enter your contact information and chief complaint to make a new'
             }
             {' submission'}
           </Text>

@@ -1,3 +1,4 @@
+import { connect } from 'react-redux';
 import { View, Text } from 'react-native';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
@@ -8,8 +9,9 @@ import Notice from '../../common/components/UI/Notice';
 import PrimaryButton from '../../common/components/UI/PrimaryButton/PrimaryButton';
 import QuickModal from '../../common/components/UI/QuickModal/QuickModal';
 import styles from './styles';
+import QuickHint from '../../common/components/UI/QuickHint/QuickHint';
 
-export default class ViewSubmissionScreen extends Component {
+class ViewSubmissionScreen extends Component {
   static navigationOptions = () => ({
     headerTitle: 'Submission',
   });
@@ -30,19 +32,22 @@ export default class ViewSubmissionScreen extends Component {
 
       // Do something
 
+      QuickHint('Successfully submitted');
       navigation.replace('Tab');
     };
     QuickModal('You will submit this complaint to request consult.', submit);
   };
 
   render() {
-    const { navigation } = this.props;
+    const { navigation, isSubmittingSubmission } = this.props;
 
     let submission = {};
     let title = 'View Submission';
+    let showActions = false;
     if (navigation.state.params) {
       ({ submission } = navigation.state.params);
       ({ title } = navigation.state.params);
+      ({ showActions } = navigation.state.params);
     }
 
     return (
@@ -82,15 +87,18 @@ export default class ViewSubmissionScreen extends Component {
             </View>
           </Notice>
 
-          <View style={styles.buttonsRowContainer}>
-            <PrimaryButton onPress={this.onPressEdit}>Edit</PrimaryButton>
-            <PrimaryButton
-              backgroundColor={colors.primary}
-              onPress={this.onPressSubmit}
-            >
-              {'Request Consult'}
-            </PrimaryButton>
-          </View>
+          {showActions && (
+            <View style={styles.buttonsRowContainer}>
+              <PrimaryButton onPress={this.onPressEdit}>Edit</PrimaryButton>
+              <PrimaryButton
+                backgroundColor={colors.primary}
+                onPress={this.onPressSubmit}
+                isLoading={isSubmittingSubmission}
+              >
+                {'Request Consult'}
+              </PrimaryButton>
+            </View>
+          )}
         </Notice>
       </EnhancedView>
     );
@@ -99,4 +107,11 @@ export default class ViewSubmissionScreen extends Component {
 
 ViewSubmissionScreen.propTypes = {
   navigation: PropTypes.shape({}),
+  isSubmittingSubmission: PropTypes.bool,
 };
+
+const mapStateToProps = state => ({
+  isSubmittingSubmission: state.submission.isSubmittingSubmission,
+});
+
+export default connect(mapStateToProps)(ViewSubmissionScreen);
