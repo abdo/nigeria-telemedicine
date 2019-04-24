@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
 
-import { TouchableWithoutFeedback } from 'react-native';
+import { View, TouchableWithoutFeedback } from 'react-native';
 import styles from './styles';
 import LoadingScreen from '../../../common/screens/LoadingScreen/LoadingScreen';
 import * as submissionActions from '../../../store/actions/submissionActions';
@@ -32,22 +32,41 @@ class AllSubmissionsScreen extends Component {
     const { isGettingSubmissions, allSubmissions } = this.props;
     if (isGettingSubmissions) return <LoadingScreen />;
 
+    if (allSubmissions.length === 0) {
+      return (
+        <View style={styles.noSubmissionsContainer}>
+          <Text>No Submissions</Text>
+        </View>
+      );
+    }
+
     return (
       <EnhancedView onRefresh={this.getAllSubmissions}>
         <List>
-          {allSubmissions.map(submission => (
-            <TouchableWithoutFeedback
-              onPress={() => this.onPressListItem(submission)}
-              key={submission._id}
-            >
-              <ListItem style={styles.listItem}>
-                <Text>
-                  {'A submission by '}
-                  <Text style={styles.name}>{submission.name}</Text>
-                </Text>
-              </ListItem>
-            </TouchableWithoutFeedback>
-          ))}
+          {allSubmissions.map((submission) => {
+            const jsDate = submission.date
+              ? new Date(submission.date)
+              : new Date();
+            const readableDate = `${jsDate.getDate()}-${jsDate.getMonth()
+              + 1}-${jsDate.getFullYear()} ${jsDate.getHours()}:${jsDate.getMinutes()}`;
+
+            return (
+              <TouchableWithoutFeedback
+                onPress={() => this.onPressListItem(submission)}
+                key={submission._id}
+              >
+                <ListItem style={styles.listItem}>
+                  <Text style={styles.nameContainer}>
+                    {'A submission by '}
+                    <Text style={styles.name}>{submission.name}</Text>
+                  </Text>
+                  {submission.date ? (
+                    <Text style={styles.date}>{readableDate}</Text>
+                  ) : null}
+                </ListItem>
+              </TouchableWithoutFeedback>
+            );
+          })}
         </List>
       </EnhancedView>
     );

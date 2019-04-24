@@ -3,7 +3,7 @@ import * as actionTypes from '../actions/actionTypes';
 const INITIAL_STATE = {
   submissions: [],
   isGettingSubmissions: false,
-  isSubmittingSubmission: false,
+  isCreatingSubmission: false,
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -21,16 +21,16 @@ export default (state = INITIAL_STATE, action) => {
         isGettingSubmissions: false,
       };
 
-    case actionTypes.SUBMIT_SUBMISSION_START:
+    case actionTypes.CREATE_SUBMISSION_START:
       return {
         ...state,
-        isSubmittingSubmission: true,
+        isCreatingSubmission: true,
       };
 
-    case actionTypes.SUBMIT_SUBMISSION_END:
+    case actionTypes.CREATE_SUBMISSION_END:
       return {
         ...state,
-        isSubmittingSubmission: false,
+        isCreatingSubmission: false,
       };
 
     default:

@@ -4,12 +4,13 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
 import { colors } from '../../assets/styles/base';
+import * as submissionActions from '../../store/actions/submissionActions';
 import EnhancedView from '../../common/components/EnhancedView';
 import Notice from '../../common/components/UI/Notice';
 import PrimaryButton from '../../common/components/UI/PrimaryButton/PrimaryButton';
+import QuickHint from '../../common/components/UI/QuickHint/QuickHint';
 import QuickModal from '../../common/components/UI/QuickModal/QuickModal';
 import styles from './styles';
-import QuickHint from '../../common/components/UI/QuickHint/QuickHint';
 
 class ViewSubmissionScreen extends Component {
   static navigationOptions = () => ({
@@ -22,24 +23,26 @@ class ViewSubmissionScreen extends Component {
   };
 
   onPressSubmit = () => {
-    const { navigation } = this.props;
+    const { navigation, createSubmission } = this.props;
+    let submission = {};
+    let clearInput = () => {};
+    if (navigation.state.params) {
+      ({ submission } = navigation.state.params);
+      ({ clearInput } = navigation.state.params);
+    }
 
-    const submit = () => {
-      if (navigation.state.params) {
-        const { clearInput } = navigation.state.params;
-        clearInput();
-      }
-
-      // Do something
+    const callbackAfterSubmission = () => {
+      clearInput();
 
       QuickHint('Successfully submitted');
       navigation.replace('Tab');
     };
-    QuickModal('You will submit this complaint to request consult.', submit);
+
+    QuickModal('You will submit this complaint to request consult.', () => createSubmission(submission, callbackAfterSubmission));
   };
 
   render() {
-    const { navigation, isSubmittingSubmission } = this.props;
+    const { navigation, isCreatingSubmission } = this.props;
 
     let submission = {};
     let title = 'View Submission';
@@ -93,7 +96,7 @@ class ViewSubmissionScreen extends Component {
               <PrimaryButton
                 backgroundColor={colors.primary}
                 onPress={this.onPressSubmit}
-                isLoading={isSubmittingSubmission}
+                isLoading={isCreatingSubmission}
               >
                 {'Request Consult'}
               </PrimaryButton>
@@ -107,11 +110,20 @@ class ViewSubmissionScreen extends Component {
 
 ViewSubmissionScreen.propTypes = {
   navigation: PropTypes.shape({}),
-  isSubmittingSubmission: PropTypes.bool,
+  isCreatingSubmission: PropTypes.bool,
+
+  createSubmission: PropTypes.func,
 };
 
 const mapStateToProps = state => ({
-  isSubmittingSubmission: state.submission.isSubmittingSubmission,
+  isCreatingSubmission: state.submission.isCreatingSubmission,
 });
 
-export default connect(mapStateToProps)(ViewSubmissionScreen);
+const mapDispatchToProps = {
+  createSubmission: submissionActions.createSubmission,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(ViewSubmissionScreen);

@@ -54,8 +54,10 @@ export default class NewSubmissionScreen extends Component {
       this.setState({ phoneNumberError: 'Must be longer than 7 characters' });
       noError = false;
     }
-    if (complaint && complaint.length < 10) {
-      this.setState({ complaintError: 'Must be longer than 10 characters' });
+    if (complaint && (complaint.length < 10 || complaint.length > 1000)) {
+      this.setState({
+        complaintError: 'Must be between 10 and 1000 characters',
+      });
       noError = false;
     }
 
@@ -108,6 +110,7 @@ export default class NewSubmissionScreen extends Component {
           error={!!nameError}
           errorText={nameError}
           value={name}
+          maxCharacters={30}
         />
         <PrimaryTextInput
           placeholder="Your Phone Number"
@@ -121,6 +124,7 @@ export default class NewSubmissionScreen extends Component {
           error={!!phoneNumberError}
           errorText={phoneNumberError}
           value={phoneNumber}
+          maxCharacters={30}
         />
         <Textarea
           rowSpan={6}
