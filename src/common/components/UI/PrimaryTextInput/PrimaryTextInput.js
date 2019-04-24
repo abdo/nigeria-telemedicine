@@ -19,9 +19,18 @@ class PrimaryTextInput extends React.Component {
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     const { autofocus, initialValue } = this.props;
     this.setState({ focused: autofocus, text: initialValue });
+  }
+
+  static getDerivedStateFromProps(nextProps) {
+    if (nextProps.value || nextProps.value === '') {
+      return {
+        text: nextProps.value,
+      };
+    }
+    return {};
   }
 
   onChangeText = (value) => {

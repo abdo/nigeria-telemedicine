@@ -65,12 +65,27 @@ export default class NewSubmissionScreen extends Component {
       navigation.navigate('ViewSubmission', {
         submission: this.state,
         title: 'View your submission before submitting it',
+        clearInput: () => this.setState({
+          name: '',
+          phoneNumber: '',
+          complaint: '',
+          nameError: '',
+          phoneNumberError: '',
+          complaintError: '',
+        }),
       });
     }
   };
 
   render() {
-    const { nameError, phoneNumberError, complaintError } = this.state;
+    const {
+      name,
+      phoneNumber,
+      complaint,
+      nameError,
+      phoneNumberError,
+      complaintError,
+    } = this.state;
     return (
       <EnhancedView keyboardVerticalOffset={60}>
         <Notice>
@@ -91,6 +106,7 @@ export default class NewSubmissionScreen extends Component {
           onChangeText={this.onChangeInput}
           error={!!nameError}
           errorText={nameError}
+          value={name}
         />
         <PrimaryTextInput
           placeholder="Your Phone Number"
@@ -103,6 +119,7 @@ export default class NewSubmissionScreen extends Component {
           onChangeText={this.onChangeInput}
           error={!!phoneNumberError}
           errorText={phoneNumberError}
+          value={phoneNumber}
         />
         <Textarea
           rowSpan={6}
@@ -111,6 +128,7 @@ export default class NewSubmissionScreen extends Component {
           placeholderTextColor={colors.primaryLight.fade(0.1)}
           style={styles.textArea}
           onChangeText={value => this.onChangeInput('complaint', value)}
+          value={complaint}
         />
         {complaintError ? (
           <Text style={styles.errorText}>{complaintError}</Text>

@@ -20,7 +20,19 @@ export default class ViewSubmissionScreen extends Component {
   };
 
   onPressSubmit = () => {
-    QuickModal('You will submit this complaint to request consult.', () => {});
+    const { navigation } = this.props;
+
+    const submit = () => {
+      if (navigation.state.params) {
+        const { clearInput } = navigation.state.params;
+        clearInput();
+      }
+
+      // Do something
+
+      navigation.replace('Tab');
+    };
+    QuickModal('You will submit this complaint to request consult.', submit);
   };
 
   render() {
