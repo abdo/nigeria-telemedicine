@@ -1,13 +1,37 @@
 import { StyleSheet } from 'react-native';
 
-import { colors } from '../../assets/styles/base';
+import { colors, gaps } from '../../assets/styles/base';
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.white,
-    alignItems: 'center',
-    justifyContent: 'center',
+  rowContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+  },
+  buttonsRowContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    width: '100%',
+  },
+  columnContainer: {
+    flexDirection: 'column',
+  },
+  outerNotice: {
+    width: '90%',
+  },
+  innerNotice: {
+    width: '90%',
+  },
+  title: {
+    color: colors.primaryLight,
+  },
+  key: {
+    fontWeight: 'bold',
+    color: colors.primaryLight,
+  },
+  textAreaKey: {
+    fontWeight: 'bold',
+    marginBottom: gaps.md,
+    color: colors.primaryLight,
   },
 });
 

@@ -16,6 +16,7 @@ module.exports = {
     'react/no-unescaped-entities': 'off',
     'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],
     'react/require-default-props': 'off',
+    'react/no-unused-state': 'off',
     'linebreak-style': 'off',
     'consistent-return': 'off',
     'no-param-reassign': 'off',

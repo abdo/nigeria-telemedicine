@@ -15,6 +15,12 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     marginTop: 20,
     alignSelf: 'center',
+    color: colors.primaryLight,
+  },
+  errorText: {
+    marginLeft: '12%',
+    color: colors.red,
+    fontSize: fontSizes.sm,
   },
 });
 
