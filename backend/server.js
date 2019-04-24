@@ -22,7 +22,7 @@ require('./config/mongoose');
 
 // Routes
 app.use('/info', (req, res) => res.send('Nigeria Telemedicine App API'));
-// app.use('/api/submission', require('./routes/submission'));
+app.use('/api/submission', require('./routes/submission'));
 
 const port = process.env.PORT || 3700;
 
