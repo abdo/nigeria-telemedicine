@@ -10,5 +10,5 @@ const http = {
 
 export default http;
 
-export const serverPath = 'http://192.168.43.107:3700';
+export const serverPath = 'http://46.101.170.117/telemedicine';
 export const submissionAPI = `${serverPath}/api/submission`;
