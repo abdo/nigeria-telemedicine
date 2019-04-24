@@ -20,6 +20,7 @@ const EnhancedView = ({
   children,
   isLoading,
   onRefresh,
+  keyboardVerticalOffset,
 }) => {
   const component = (
     <ImageBackground
@@ -31,7 +32,10 @@ const EnhancedView = ({
           : backgroundImagePath || null
       }
     >
-      <KeyboardAvoidingView behavior="padding">
+      <KeyboardAvoidingView
+        behavior="padding"
+        keyboardVerticalOffset={keyboardVerticalOffset}
+      >
         <ScrollView
           style={{ height: '100%' }}
           contentContainerStyle={{ width: '100%', minHeight: '100%' }}
@@ -71,6 +75,8 @@ EnhancedView.defaultProps = {
   onRefresh: null,
 
   children: null,
+
+  keyboardVerticalOffset: 0,
 };
 
 EnhancedView.propTypes = {
@@ -93,6 +99,8 @@ EnhancedView.propTypes = {
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
   ]),
+
+  keyboardVerticalOffset: PropTypes.number,
 };
 
 export default EnhancedView;

@@ -1,12 +1,20 @@
 import { StyleSheet } from 'react-native';
-import { colors } from '../../../assets/styles/base';
+import { colors, fontSizes } from '../../../assets/styles/base';
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.white,
-    alignItems: 'center',
-    justifyContent: 'center',
+  noticeContent: {
+    color: colors.primaryLight,
+    fontSize: fontSizes.sm,
+    fontWeight: 'bold',
+  },
+  textArea: {
+    width: '78%',
+    borderColor: colors.primaryLight.fade(0.5),
+    borderRadius: 5,
+    fontSize: fontSizes.md,
+    paddingTop: 10,
+    marginTop: 20,
+    alignSelf: 'center',
   },
 });
 
