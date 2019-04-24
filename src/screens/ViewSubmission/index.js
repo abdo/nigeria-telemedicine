@@ -35,7 +35,7 @@ class ViewSubmissionScreen extends Component {
       clearInput();
 
       QuickHint('Successfully submitted');
-      navigation.replace('Tab');
+      navigation.navigate('Tab');
     };
 
     QuickModal('You will submit this complaint to request consult.', () => createSubmission(submission, callbackAfterSubmission));
