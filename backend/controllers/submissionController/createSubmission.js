@@ -12,7 +12,7 @@ module.exports = (req, res) => {
     lastName: req.body.lastName,
     phoneNumber: req.body.phoneNumber,
     gender: req.body.gender,
-    dateOfBirth: req.body.dateOfBirth,
+    dateOfBirth: new Date(req.body.dateOfBirth),
   });
 
   newSubmission
