@@ -32,7 +32,7 @@ class AllSubmissionsScreen extends Component {
     const { isGettingSubmissions, allSubmissions } = this.props;
     if (isGettingSubmissions) return <LoadingScreen />;
 
-    if (allSubmissions.length === 0) {
+    if (!allSubmissions || allSubmissions.length === 0) {
       return (
         <View style={styles.noSubmissionsContainer}>
           <Text>No Submissions</Text>
@@ -58,7 +58,7 @@ class AllSubmissionsScreen extends Component {
                 <ListItem style={styles.listItem}>
                   <Text style={styles.nameContainer}>
                     {'A submission by '}
-                    <Text style={styles.name}>{submission.name}</Text>
+                    <Text style={styles.name}>{submission.firstName}</Text>
                   </Text>
                   {submission.date ? (
                     <Text style={styles.date}>{readableDate}</Text>

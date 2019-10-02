@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   pickerContainer: {
-    borderColor: colors.primaryLight,
+    borderColor: colors.transparent,
     borderWidth: 3,
     borderRadius: 8,
     padding: 5,
@@ -19,7 +19,8 @@ const styles = StyleSheet.create({
     fontSize: fontSizes.md, fontWeight: 'bold', color: colors.gray03, fontFamily: fontTypes.main,
   },
   placeholder: {
-    color: colors.gray01,
+    color: colors.primaryLight,
+    fontWeight: 'normal',
   },
 });
 

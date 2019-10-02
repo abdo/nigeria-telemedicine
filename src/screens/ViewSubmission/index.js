@@ -41,71 +41,107 @@ class ViewSubmissionScreen extends Component {
     QuickModal('You will submit this complaint to request consult.', () => createSubmission(submission, callbackAfterSubmission));
   };
 
-  render() {
-    const { navigation, isCreatingSubmission } = this.props;
+   formatDate = (dateString) => {
+     const date = new Date(dateString);
+     const monthNames = [
+       'January', 'February', 'March',
+       'April', 'May', 'June', 'July',
+       'August', 'September', 'October',
+       'November', 'December',
+     ];
 
-    let submission = {};
-    let title = 'View Submission';
-    let showActions = false;
-    if (navigation.state.params) {
-      ({ submission } = navigation.state.params);
-      ({ title } = navigation.state.params);
-      ({ showActions } = navigation.state.params);
-    }
+     const day = date.getDate();
+     const monthIndex = date.getMonth();
+     const year = date.getFullYear();
 
-    return (
-      <EnhancedView>
-        <Notice
-          title={title}
-          titleStyle={styles.title}
-          style={styles.outerNotice}
-        >
-          <Notice style={styles.innerNotice}>
-            <View style={styles.rowContainer}>
-              <Text style={styles.key}>Name:</Text>
-              <Text>
-                {' '}
-                {submission.name}
-              </Text>
-            </View>
-          </Notice>
+     return `${day} ${monthNames[monthIndex]} ${year}`;
+   }
 
-          <Notice style={styles.innerNotice}>
-            <View style={styles.rowContainer}>
-              <Text style={styles.key}>Phone Number:</Text>
-              <Text>
-                {' '}
-                {submission.phoneNumber}
-              </Text>
-            </View>
-          </Notice>
+   render() {
+     const { navigation, isCreatingSubmission } = this.props;
 
-          <Notice style={styles.innerNotice}>
-            <View style={styles.columnContainer}>
-              <Text style={styles.textAreaKey}>Chief Complaint:</Text>
-              <Text>
-                {' '}
-                {submission.complaint}
-              </Text>
-            </View>
-          </Notice>
+     let submission = {};
+     let title = 'View Submission';
+     let showActions = false;
+     if (navigation.state.params) {
+       ({ submission } = navigation.state.params);
+       ({ title } = navigation.state.params);
+       ({ showActions } = navigation.state.params);
+     }
 
-          {showActions && (
-            <View style={styles.buttonsRowContainer}>
-              <PrimaryButton onPress={this.onPressEdit}>Edit</PrimaryButton>
-              <PrimaryButton
-                backgroundColor={colors.primary}
-                onPress={this.onPressSubmit}
-                isLoading={isCreatingSubmission}
-              >
-                {'Request Consult'}
-              </PrimaryButton>
-            </View>
-          )}
-        </Notice>
-      </EnhancedView>
-    );
-  }
+     return (
+       <EnhancedView>
+         <Notice
+           title={title}
+           titleStyle={styles.title}
+           style={styles.outerNotice}
+         >
+           <Notice style={styles.innerNotice}>
+             <View style={styles.rowContainer}>
+               <Text style={styles.key}>First Name:</Text>
+               <Text>
+                 {' '}
+                 {submission.firstName}
+               </Text>
+             </View>
+           </Notice>
+
+           <Notice style={styles.innerNotice}>
+             <View style={styles.rowContainer}>
+               <Text style={styles.key}>Last Name:</Text>
+               <Text>
+                 {' '}
+                 {submission.lastName}
+               </Text>
+             </View>
+           </Notice>
+
+           <Notice style={styles.innerNotice}>
+             <View style={styles.rowContainer}>
+               <Text style={styles.key}>Phone Number:</Text>
+               <Text>
+                 {' '}
+                 {submission.phoneNumber}
+               </Text>
+             </View>
+           </Notice>
+
+           <Notice style={styles.innerNotice}>
+             <View style={styles.rowContainer}>
+               <Text style={styles.key}>Gender:</Text>
+               <Text>
+                 {' '}
+                 {submission.gender}
+               </Text>
+             </View>
+           </Notice>
+
+           <Notice style={styles.innerNotice}>
+             <View style={styles.rowContainer}>
+               <Text style={styles.key}>Date of birth:</Text>
+               <Text>
+                 {' '}
+                 {this.formatDate(submission.dateOfBirth)}
+               </Text>
+             </View>
+           </Notice>
+
+           {showActions && (
+           <View style={styles.buttonsRowContainer}>
+             <PrimaryButton onPress={this.onPressEdit}>Edit</PrimaryButton>
+             <PrimaryButton
+               backgroundColor={colors.primary}
+               onPress={this.onPressSubmit}
+               isLoading={isCreatingSubmission}
+             >
+               {'Request Consult'}
+             </PrimaryButton>
+           </View>
+           )}
+         </Notice>
+       </EnhancedView>
+     );
+   }
 }
 
 ViewSubmissionScreen.propTypes = {

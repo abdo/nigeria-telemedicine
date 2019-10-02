@@ -8,9 +8,11 @@ module.exports = (req, res) => {
 
   // Create new submission
   const newSubmission = new Submission({
-    name: req.body.name,
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
     phoneNumber: req.body.phoneNumber,
-    complaint: req.body.complaint,
+    gender: req.body.gender,
+    dateOfBirth: req.body.dateOfBirth,
   });
 
   newSubmission

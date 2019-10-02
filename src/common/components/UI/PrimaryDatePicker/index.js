@@ -19,7 +19,7 @@ class PrimaryDatePicker extends React.Component {
     return (
       <View style={[styles.container, style]}>
         {title && <Text style={{ color }}>{title}</Text>}
-        <View style={[styles.pickerContainer, error ? { borderColor: colors.error } : { borderColor: color }]}>
+        <View style={[styles.pickerContainer, error ? { borderColor: colors.error } : { borderColor: colors.transparent }]}>
           <View style={{ flex: 1 }}>
             <DatePicker
               onDateChange={value => onChange(name, value)}

@@ -1,4 +1,4 @@
-import { Textarea, Text } from 'native-base';
+import { Text } from 'native-base';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
@@ -8,59 +8,53 @@ import Notice from '../../../common/components/UI/Notice';
 import PrimaryButton from '../../../common/components/UI/PrimaryButton/PrimaryButton';
 import PrimaryTextInput from '../../../common/components/UI/PrimaryTextInput/PrimaryTextInput';
 import styles from './styles';
+import PrimaryPicker from '../../../common/components/UI/PrimaryPicker/PrimaryPicker';
+import PrimaryDatePicker from '../../../common/components/UI/PrimaryDatePicker';
 
 export default class NewSubmissionScreen extends Component {
   state = {
-    name: '',
+    firstName: '',
+    lastName: '',
+    gender: '',
     phoneNumber: '',
-    complaint: '',
-    nameError: '',
-    phoneNumberError: '',
-    complaintError: '',
+    dateOfBirth: '',
   };
 
   onChangeInput = (name, value) => {
-    const errorName = name === 'name'
-      ? 'nameError'
-      : name === 'phoneNumber'
-        ? 'phoneNumberError'
-        : 'complaintError';
+    const errorName = `${name}Error`;
 
     this.setState({ [name]: value, [errorName]: '' });
   };
 
   onPressComplete = () => {
-    const { name, phoneNumber, complaint } = this.state;
+    const {
+      firstName, lastName, phoneNumber,
+    } = this.state;
+    console.log(this.state);
 
     let noError = true;
 
-    if (!name) {
-      this.setState({ nameError: 'Name is required' });
-      noError = false;
-    }
-    if (!phoneNumber) {
-      this.setState({ phoneNumberError: 'Phone number is required' });
-      noError = false;
-    }
-    if (!complaint) {
-      this.setState({ complaintError: 'Complaint is required' });
-      noError = false;
-    }
-    if (name && name.length < 2) {
-      this.setState({ nameError: 'Must be longer than 2 characters' });
-      noError = false;
-    }
-    if (phoneNumber && phoneNumber.length < 7) {
-      this.setState({ phoneNumberError: 'Must be longer than 7 characters' });
-      noError = false;
-    }
-    if (complaint && (complaint.length < 10 || complaint.length > 1000)) {
-      this.setState({
-        complaintError: 'Must be between 10 and 1000 characters',
-      });
-      noError = false;
-    }
+    Object.keys(this.state).forEach((key) => {
+      const state = { ...this.state };
+      if (!state[key] && !key.includes('Error')) {
+        const errorKey = `${key}Error`;
+        this.setState({ [errorKey]: 'Field is required' });
+        noError = false;
+      }
+    });
 
+    if (firstName && firstName.length < 2) {
+      this.setState({ firstNameError: 'Must be longer than 2 characters' });
+      noError = false;
+    }
+    if (lastName && lastName.length < 2) {
+      this.setState({ lastNameError: 'Must be longer than 2 characters' });
+      noError = false;
+    }
+    if (phoneNumber && phoneNumber.length !== 11) {
+      this.setState({ phoneNumberError: 'Must be 11 digits' });
+      noError = false;
+    }
     if (noError) {
       const { navigation } = this.props;
 
@@ -69,12 +63,11 @@ export default class NewSubmissionScreen extends Component {
         title: 'View your submission before submitting it',
         showActions: true,
         clearInput: () => this.setState({
-          name: '',
+          firstName: '',
+          lastName: '',
+          gender: '',
           phoneNumber: '',
-          complaint: '',
-          nameError: '',
-          phoneNumberError: '',
-          complaintError: '',
+          dateOfBirth: '',
         }),
       });
     }
@@ -82,34 +75,46 @@ export default class NewSubmissionScreen extends Component {
 
   render() {
     const {
-      name,
+      firstName,
+      lastName,
       phoneNumber,
-      complaint,
-      nameError,
-      phoneNumberError,
-      complaintError,
     } = this.state;
+
+    const state = { ...this.state };
+
     return (
       <EnhancedView keyboardVerticalOffset={60}>
         <Notice>
           <Text style={styles.noticeContent}>
             {
-              'Please enter your contact information and chief complaint to make a new'
+              'Please enter your contact information to make a new submission'
             }
-            {' submission'}
           </Text>
         </Notice>
         <PrimaryTextInput
-          placeholder="Your Name"
+          placeholder="Your First Name"
           color={colors.primaryLight}
           backgroundColor={colors.primary.fade(0.2)}
           hasBackgroundOnFocus
           colorOnFocus={colors.trueWhite}
-          name="name"
+          name="firstName"
           onChangeText={this.onChangeInput}
-          error={!!nameError}
-          errorText={nameError}
-          value={name}
+          error={!!state.firstNameError}
+          errorText={state.firstNameError}
+          value={firstName}
+          maxCharacters={30}
+        />
+        <PrimaryTextInput
+          placeholder="Your Last Name"
+          color={colors.primaryLight}
+          backgroundColor={colors.primary.fade(0.2)}
+          hasBackgroundOnFocus
+          colorOnFocus={colors.trueWhite}
+          name="lastName"
+          onChangeText={this.onChangeInput}
+          error={!!state.lastNameError}
+          errorText={state.lastNameError}
+          value={lastName}
           maxCharacters={30}
         />
         <PrimaryTextInput
@@ -121,23 +126,30 @@ export default class NewSubmissionScreen extends Component {
           name="phoneNumber"
           keyboardType="numeric"
           onChangeText={this.onChangeInput}
-          error={!!phoneNumberError}
-          errorText={phoneNumberError}
+          error={!!state.phoneNumberError}
+          errorText={state.phoneNumberError}
           value={phoneNumber}
           maxCharacters={30}
         />
-        <Textarea
-          rowSpan={6}
-          bordered
-          placeholder="Your Chief Complaint"
-          placeholderTextColor={colors.primaryLight.fade(0.1)}
-          style={styles.textArea}
-          onChangeText={value => this.onChangeInput('complaint', value)}
-          value={complaint}
+        <PrimaryPicker
+          placeholder="Your Gender"
+          title="Gender"
+          name="gender"
+          onChange={this.onChangeInput}
+          error={!!state.genderError}
+          errorText={state.genderError}
+          options={[{ label: 'Male', value: 'male' }, { label: 'Female', value: 'female' }]}
         />
-        {complaintError ? (
-          <Text style={styles.errorText}>{complaintError}</Text>
-        ) : null}
+        <PrimaryDatePicker
+          placeholder="Your Date of Birth"
+          title="Date of Birth"
+          color={colors.primaryLight}
+          name="dateOfBirth"
+          onChange={this.onChangeInput}
+          error={!!state.dateOfBirthError}
+          errorText={state.dateOfBirthError}
+        />
+
         <PrimaryButton onPress={this.onPressComplete}>Complete</PrimaryButton>
       </EnhancedView>
     );
