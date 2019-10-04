@@ -14,6 +14,7 @@ const styles = StyleSheet.create({
     borderWidth: 3,
     borderRadius: 8,
     padding: 5,
+    height: 50,
   },
   pickerText: {
     fontSize: fontSizes.md, fontWeight: 'bold', color: colors.gray03, fontFamily: fontTypes.main,

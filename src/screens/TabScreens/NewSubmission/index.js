@@ -132,8 +132,7 @@ export default class NewSubmissionScreen extends Component {
           maxCharacters={30}
         />
         <PrimaryPicker
-          placeholder="Your Gender"
-          title="Gender"
+          title="Your Gender"
           name="gender"
           onChange={this.onChangeInput}
           error={!!state.genderError}

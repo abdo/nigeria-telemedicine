@@ -1,4 +1,5 @@
-import { createMaterialTopTabNavigator } from 'react-navigation';
+// import { createMaterialTopTabNavigator } from 'react-navigation';
+import { createMaterialTopTabNavigator } from 'react-navigation-tabs';
 import React from 'react';
 import { Icon } from 'native-base';
 import { colors, sizes, fontSizes } from '../assets/styles/base';
